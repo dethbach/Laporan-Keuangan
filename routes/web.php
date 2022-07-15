@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('layouts.dashboard');
+    return redirect('/login');
 });
 
 Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
