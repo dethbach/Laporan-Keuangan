@@ -12,6 +12,21 @@
 
     <div class="container mt-5">
         <div class="row justify-content-center">
+
+            @if ($message = Session::get('success'))
+            <div class="row mt-2 me-3 ms-3">
+                <div class="alert alert-success alert-block">
+                    <strong>{{ $message }}</strong>
+                </div>
+            </div>
+            @endif
+            @if ($message = Session::get('error'))
+            <div class="row mt-2 me-3 ms-3">
+                <div class="alert alert-danger alert-block">
+                    <strong>{{ $message }}</strong>
+                </div>
+            </div>
+            @endif
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ __('Login') }}</div>

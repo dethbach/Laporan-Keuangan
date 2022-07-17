@@ -12,7 +12,7 @@
     <!-- Boxicons CDN Link -->
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
 
-    <title>Service Center</title>
+    <title>Service Center @yield('title')</title>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
         </div>
         <ul class="nav-list">
             <li>
-                <a href="#">
+                <a href="/{{ Auth()->user()->role }}/dashboard">
                     <i class="bx bx-grid-alt"></i>
                     <span class="links_name">Dashboard</span>
                 </a>
@@ -36,48 +36,7 @@
                 </a>
                 <span class="tooltip">User</span>
             </li>
-            <li>
-                <a href="#">
-                    <i class="bx bx-chat"></i>
-                    <span class="links_name">Messages</span>
-                </a>
-                <span class="tooltip">Messages</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bx bx-pie-chart-alt-2"></i>
-                    <span class="links_name">Analytics</span>
-                </a>
-                <span class="tooltip">Analytics</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bx bx-folder"></i>
-                    <span class="links_name">File Manager</span>
-                </a>
-                <span class="tooltip">Files</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bx bx-cart-alt"></i>
-                    <span class="links_name">Order</span>
-                </a>
-                <span class="tooltip">Order</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bx bx-heart"></i>
-                    <span class="links_name">Saved</span>
-                </a>
-                <span class="tooltip">Saved</span>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="bx bx-cog"></i>
-                    <span class="links_name">Setting</span>
-                </a>
-                <span class="tooltip">Setting</span>
-            </li>
+
         </ul>
     </div>
     <section class="home-section">
@@ -85,13 +44,16 @@
         <header class="p-3 mb-3 home-header">
             <div class="container">
                 <div class="d-flex flex-wrap align-items-end justify-content-end justify-content-lg-end">
+                    @if(Auth()->user()->theme == true)
 
-                    <a class="btn btn-warning pb-0 pt-1 me-3 rounded-pill" href="#" role="button" style="border-radius: 50%;">
-                        <i class='bx bx-sun bx-tada-hover'></i>
-                    </a>
                     <a class="btn btn-outline-warning pb-0 pt-1 me-3 rounded-pill" href="#" role="button" style="border-radius: 50%;">
                         <i class='bx bxs-moon bx-flashing-hover'></i>
                     </a>
+                    @else
+                    <a class="btn btn-warning pb-0 pt-1 me-3 rounded-pill" href="#" role="button" style="border-radius: 50%;">
+                        <i class='bx bx-sun bx-tada-hover'></i>
+                    </a>
+                    @endif
 
 
                     <div class="dropdown text-end">
@@ -113,6 +75,8 @@
             </div>
         </header>
         <!-- end header -->
+
+        @yield('contents')
 
 
     </section>
