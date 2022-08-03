@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InstansiController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\SetApplicationController;
 use App\Http\Controllers\TransactionController;
@@ -38,7 +39,10 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::get('/saldo/log', [WalletController::class, 'index'])->name('wallet.log');
     Route::post('/karyawan/store', [KaryawanController::class, 'store'])->name('karyawan.store');
     Route::post('/karyawan/destroy', [KaryawanController::class, 'destroy'])->name('karyawan.destroy');
+    Route::post('/instansi/store', [InstansiController::class, 'store'])->name('instansi.store');
+    Route::post('/instansi/destroy', [InstansiController::class, 'destroy'])->name('instansi.destroy');
     Route::post('/transaksiMasuk/service/store', [TransactionController::class, 'servicestore'])->name('transaction.servicestorein');
+    Route::post('/transaksiMasuk/kasbon/store', [TransactionController::class, 'kasbonstore'])->name('transaction.kasbonstorein');
 
 
     Route::post('/transaksiKeluar/service/store', [TransactionOutController::class, 'servicestore'])->name('transaction.servicestoreout');
@@ -50,9 +54,11 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
 Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('setting', [AdminController::class, 'setting'])->name('admin.setting');
+    Route::get('instansi', [AdminController::class, 'instansi'])->name('admin.instansi');
 });
 
 Route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBackHistory']], function () {
     Route::get('dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('setting', [UserController::class, 'setting'])->name('user.setting');
+    Route::get('instansi', [UserController::class, 'instansi'])->name('user.instansi');
 });

@@ -19,8 +19,11 @@ class AdminController extends Controller
         $day = $days->format('l');
         $saldoCash = Saldo::where('wallet', 'Cash')->latest()->first();
         $saldoAtm = Saldo::where('wallet', 'ATM')->latest()->first();
-        return view('dashboard.index', compact('date', 'day', 'saldoCash', 'saldoAtm'));
+        $karyawans = Karyawan::get();
+        $instansis = Instansi::get();
+        return view('dashboard.index', compact('date', 'day', 'saldoCash', 'saldoAtm', 'karyawans', 'instansis'));
     }
+
     public function setting()
     {
         $karyawans = Karyawan::get();

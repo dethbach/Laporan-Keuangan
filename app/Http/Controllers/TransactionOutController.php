@@ -140,6 +140,7 @@ class TransactionOutController extends Controller
             'type' => $request->type,
             'description' => $request->description,
             'price' => $request->price,
+            'receipt' => $request->receipt,
             'date' => $date,
             'wallet' => $request->wallet,
             'status' => false,

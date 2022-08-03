@@ -83,6 +83,52 @@ class TransactionController extends Controller
         }
     }
 
+    public function kasbonstore(Request $request)
+    {
+        $boncheck = Transaction::where('type', 'Kasbon')->where('description', $request->description)->where('status', false)->pluck('price')->sum();
+        if ($boncheck == '0') {
+            return back()->with('error', 'User tidakada kasbon!');
+        } else {
+            $bonvalue = $boncheck - $request->price;
+            $updatebon = Transaction::where('type', 'Kasbon')->where('description', $request->description)->where('status', false)->update(['status' => true]);
+            $date = date('Y-m-d H:i:s');
+            $random = Str::random(20);
+            $store = Transaction::create([
+                'user_id' => auth()->user()->id,
+                'slug' => $random,
+                'flow' => $request->flow,
+                'type' => $request->type,
+                'description' => $request->description,
+                'price' => $bonvalue,
+                'date' => $date,
+                'wallet' => $request->wallet,
+                'status' => false,
+            ]);
+            if ($store) {
+                if ($request->wallet == 'Cash') {
+                    $saldoCash = Saldo::where('wallet', 'Cash')->latest()->first();
+                    $cash = $saldoCash->nominal + $request->price;
+                    $storecash = Saldo::create([
+                        'user_id' => auth()->user()->id,
+                        'wallet' => 'Cash',
+                        'nominal' => $cash
+                    ]);
+                } elseif ($request->wallet == 'ATM') {
+                    $saldoATM = Saldo::where('wallet', 'ATM')->latest()->first();
+                    $atm = $saldoATM->nominal + $request->price;
+                    $storeATM = Saldo::create([
+                        'user_id' => auth()->user()->id,
+                        'wallet' => 'ATM',
+                        'nominal' => $atm
+                    ]);
+                }
+                return back()->with('success', 'Transaction Success!');
+            } else {
+                return back()->with('error', 'Transaction Failed!');
+            }
+        }
+    }
+
     /**
      * Display the specified resource.
      *

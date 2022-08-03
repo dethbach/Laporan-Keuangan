@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('wallet')->nullable();
             $table->string('noservice')->nullable();
             $table->string('nonota')->nullable();
+            $table->string('receipt')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

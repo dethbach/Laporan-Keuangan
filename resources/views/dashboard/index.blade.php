@@ -438,6 +438,50 @@
     </div>
 </div>
 
+<!-- Modal Kasbon Masuk-->
+<div class="modal fade" id="modalKasbon" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalKasbonLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content rounded-4 shadow">
+            <form action="/transaksiMasuk/kasbon/store" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body px-4 pb-4">
+                    <div class="d-flex justify-content-between me-3 mt-3">
+                        <h4 class="text-start display-6">Kasbon</h4>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="mb-3 mt-4">
+                        <input type="text" name="xtype" class="form-control" id="xtype" placeholder="Kasbon" value="Kasbon" disabled>
+                        <input type="text" name="type" class="form-control" id="type" value="Kasbon" hidden>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" aria-label="Pembayaran" id="wallet" name="wallet">
+                            <option value="Cash">Cash</option>
+                            <option value="ATM">Debit</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Nama</label>
+                        <select class="form-select" aria-label="Description" name="description" id="description" placeholder="Deskripsi Transaksi" required>
+                            @foreach($karyawans as $karyawan)
+                            <option value="{{ $karyawan->name }}">{{$karyawan->name}}</option>
+                            @endforeach
+                        </select>
+                        <input type="text" name="flow" class="form-control" id="flow" value="In" hidden>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" name="price" class="form-control" id="price" placeholder="Harga" required>
+                    </div>
+                </div>
+                <div class="modal-footer flex-nowrap p-0">
+                    <button type="submit" type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right"><strong>Simpan</strong></button>
+                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 text-danger" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Modal Event Keluar-->
 <div class="modal fade" id="modalEventOut" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEventOutLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -460,6 +504,13 @@
                         <select class="form-select" aria-label="Pembayaran" id="wallet" name="wallet" required>
                             <option value="Cash">Cash</option>
                             <option value="ATM">Debit</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" aria-label="receipt" id="receipt" name="receipt" required>
+                            @foreach($instansis as $instansi)
+                            <option value="{{$instansi->name}}">{{$instansi->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="mb-3">
