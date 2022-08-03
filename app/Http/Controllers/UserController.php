@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use App\Models\Saldo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,6 +14,8 @@ class UserController extends Controller
         $date = date('d-m-Y');
         $days = new DateTime($date);
         $day = $days->format('l');
-        return view('dashboard.index', compact('date', 'day'));
+        $saldoCash = Saldo::where('wallet', 'Cash')->latest()->pluck('nominal')->first();
+        $saldoAtm = Saldo::where('wallet', 'ATM')->latest()->pluck('nominal')->first();
+        return view('dashboard.index', compact('date', 'day', 'saldoCash', 'saldoAtm'));
     }
 }

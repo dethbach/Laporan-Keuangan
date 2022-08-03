@@ -57,6 +57,30 @@
             </div>
         </div>
 
+        <div class="container-fluid mt-3">
+            <div class="card" style="width: 15rem;">
+                <div class="card-body">
+                    <div class="d-row justify-content-start">
+                        <h5 class="mb-0">
+                            Cash: Rp. {{$saldoCash->nominal}}
+                        </h5>
+                        <h5 class="mb-3">
+                            ATM: Rp. {{$saldoAtm->nominal}}
+                        </h5>
+                        <p class="text-end mb-0">
+                            <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#modalSaldo">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                </svg>
+                                edit
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container-fluid mb-5">
 
             <div class="d-flex justify-content-end mb-3">
@@ -131,6 +155,32 @@
 
 <!-- MODAL PARKING -->
 
+
+<!-- Modal Service -->
+<div class="modal fade" id="modalSaldo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalSaldoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-4 shadow">
+            <form action="/wallet/update" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body p-4 text-center">
+                    <h4 class="text-center display-6">Saldo</h4>
+                    Cash = Rp. {{$saldoCash->nominal}} <br>
+                    ATM = Rp. {{$saldoAtm->nominal}}
+                    <div class="mb-3 mt-4">
+                        <input type="number" name="cash" class="form-control" id="cash" placeholder="Saldo Cash" value="{{$saldoCash}} " required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" name="atm" class="form-control" id="atm" placeholder="Saldo ATM" value="{{$saldoAtm}}" required>
+                    </div>
+                </div>
+                <div class="modal-footer flex-nowrap p-0">
+                    <button type="submit" type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right"><strong>Simpan</strong></button>
+                    <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 text-danger" data-bs-dismiss="modal">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Modal Ask Transaction-->
 <div class="modal fade" id="modalAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAddLabel" aria-hidden="true">

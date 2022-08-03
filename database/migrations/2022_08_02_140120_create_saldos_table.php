@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('saldos', function (Blueprint $table) {
             $table->id();
-            $table->string('wallet');
-            $table->string('nominal');
+            $table->integer('wallet');
+            $table->integer('nominal');
             $table->timestamps();
         });
     }
