@@ -1,10 +1,15 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\WalletController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\SetApplicationController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionOutController;
+use App\Http\Controllers\WalletController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,16 +30,29 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
     Auth::routes();
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/set-application', [SetApplicationController::class, 'setapplication'])->name('set-application');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
-    Route::post('/wallet/update', [WalletController::class, 'store'])->name('wallet.store');
+    Route::post('/saldo/update', [WalletController::class, 'store'])->name('wallet.store');
+    Route::get('/saldo/log', [WalletController::class, 'index'])->name('wallet.log');
+    Route::post('/karyawan/store', [KaryawanController::class, 'store'])->name('karyawan.store');
+    Route::post('/karyawan/destroy', [KaryawanController::class, 'destroy'])->name('karyawan.destroy');
+    Route::post('/transaksiMasuk/service/store', [TransactionController::class, 'servicestore'])->name('transaction.servicestorein');
+
+
+    Route::post('/transaksiKeluar/service/store', [TransactionOutController::class, 'servicestore'])->name('transaction.servicestoreout');
+    Route::post('/transaksiKeluar/operasional/store', [TransactionOutController::class, 'operasionalstore'])->name('transaction.operasionalstoreout');
+    Route::post('/transaksiKeluar/kasbon/store', [TransactionOutController::class, 'kasbonstore'])->name('transaction.kasbonstoreout');
+    Route::post('/transaksiKeluar/event/store', [TransactionOutController::class, 'eventstore'])->name('transaction.eventstoreout');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('setting', [AdminController::class, 'setting'])->name('admin.setting');
 });
 
 Route::group(['prefix' => 'user', 'middleware' => ['isUser', 'auth', 'PreventBackHistory']], function () {
     Route::get('dashboard', [UserController::class, 'index'])->name('user.dashboard');
+    Route::get('setting', [UserController::class, 'setting'])->name('user.setting');
 });

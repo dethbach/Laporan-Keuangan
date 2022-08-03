@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('flow')->nullable();
             $table->string('type')->nullable();
             $table->string('description')->nullable();
-            $table->integer('price')->nullable();
+            $table->string('price')->nullable();
             $table->string('date')->nullable();
             $table->string('wallet')->nullable();
             $table->string('noservice')->nullable();

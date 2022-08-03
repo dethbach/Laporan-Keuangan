@@ -43,6 +43,24 @@
                 <span class="tooltip">Dashboard</span>
             </li>
             @endif
+
+            @if($navtitle == 'Setting')
+            <li>
+                <a href="/{{auth()->user()->role}}/setting" class="text-light" style="background-color: #8D93AB;">
+                    <i class='bx bx-cog'></i>
+                    <span class="links_name">Setting</span>
+                </a>
+                <span class="tooltip">Setting</span>
+            </li>
+            @else
+            <li>
+                <a href="/{{auth()->user()->role}}/setting" class="text-light">
+                    <i class='bx bx-cog'></i>
+                    <span class="links_name">Setting</span>
+                </a>
+                <span class="tooltip">Setting</span>
+            </li>
+            @endif
         </ul>
     </div>
     <section class="home-section">

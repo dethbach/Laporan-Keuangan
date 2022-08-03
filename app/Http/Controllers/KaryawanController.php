@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Saldo;
+use App\Models\Karyawan;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class WalletController extends Controller
+class KaryawanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,7 @@ class WalletController extends Controller
      */
     public function index()
     {
-        $saldolog = Saldo::with('saldouser')->latest()->get();
-        return view('dashboard.saldolog', compact('saldolog'));
+        //
     }
 
     /**
@@ -37,25 +36,20 @@ class WalletController extends Controller
      */
     public function store(Request $request)
     {
-        $oldCash = Saldo::where('wallet', 'Cash')->latest()->first();
-        $oldAtm = Saldo::where('wallet', 'ATM')->latest()->first();
-        if ($request->atm != null) {
-            $sumatm = $request->atm + $oldAtm->nominal;
-            $storeAtm = Saldo::create([
-                'wallet' => 'ATM',
-                'nominal' => $sumatm,
-                'user_id' => auth()->user()->id
+        $validation = Karyawan::where('name', $request->name)->first();
+        if ($validation != null) {
+            return back()->with('error', 'Nama telah kerdaftar!');
+        } else {
+            $store = Karyawan::create([
+                'name' => $request->name
             ]);
+
+            if ($store) {
+                return back()->with('success', 'register successfully!');
+            } else {
+                return back()->with('error', 'register failed! refresh browser and try again!');
+            }
         }
-        if ($request->cash != null) {
-            $sumcash = $request->cash + $oldCash->nominal;
-            $storeCash = Saldo::create([
-                'wallet' => 'Cash',
-                'nominal' => $sumcash,
-                'user_id' => auth()->user()->id
-            ]);
-        }
-        return back()->with('success', 'Update Successfully');
     }
 
     /**
@@ -98,8 +92,16 @@ class WalletController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $whothis = Karyawan::where('id', $request->myid)->first();
+        $bonchecker = Transaction::where('type', 'Kasbon')->where('description', $whothis->name)->where('status', false)->first();
+
+        if ($bonchecker != null) {
+            return back()->with('error', 'User masih mempunyai Bon. Selesaikan transaksi sebelum menghapus data!');
+        } else {
+            $destroy = Karyawan::where('id', $request->myid)->first()->delete();
+            return back()->with('error', 'Data Deleted!');
+        }
     }
 }
